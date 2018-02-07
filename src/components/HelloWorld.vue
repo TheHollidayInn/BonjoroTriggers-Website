@@ -24,16 +24,25 @@
                                 v-model="condition.item",
                                 placeholder="select item")
               .col-12.col-md-4
-                select.form-control(v-model='condition.compare')
+                select.form-control(v-model='condition.compare', v-if='exampleObject[condition.item.text] instanceof Date === false')
                   option =
                   option >
                   option >=
                   option <
                   option <=
                   option !=
+                select.form-control(v-model='condition.compare', v-if='exampleObject[condition.item.text] instanceof Date')
+                  option more than
+                  option exactly
+                  option less than
+                  option after
+                  option on
+                  option before
               .col-12.col-md-4
                 input.form-control(v-model='condition.expectedValue', type='text', v-if='typeof exampleObject[condition.item.text] === "string"')
-                input.form-control(v-model='condition.expectedValue', type='date', v-if='exampleObject[condition.item.text] instanceof Date')
+                input.form-control(v-model='condition.expectedValue', type='date', v-if='exampleObject[condition.item.text] instanceof Date && ["after", "on", "before"].indexOf(condition.compare) !== -1')
+                input.form-control(v-model='condition.expectedValue', type='number', v-if='exampleObject[condition.item.text] instanceof Date && ["after", "on", "before"].indexOf(condition.compare) === -1')
+                span(v-if='exampleObject[condition.item.text] instanceof Date && ["after", "on", "before"].indexOf(condition.compare) === -1') days ago
                 input.form-control(v-model='condition.expectedValue', type='number', v-if='typeof exampleObject[condition.item.text] === "number"')
           .row.actions
             .col-12.text-center
@@ -78,13 +87,13 @@ export default {
         Email: 'mike@bonjoro.com',
         Phone: '',
         'User ID': '78964335-4c42-4f6c-aa8b-41a77665042c',
-        'First Seen (AEDT)': '2016-05-12 12:09:07',
-        'Signed up (AEDT)': '2016-05-12 02:09:08',
-        'Last seen (AEDT)': '2018-02-02 09:59:00',
-        'Last contacted (AEDT)': '2018-02-06 06:11:43',
+        'First Seen (AEDT)': new Date(),
+        'Signed up (AEDT)': new Date(),
+        'Last seen (AEDT)': new Date(),
+        'Last contacted (AEDT)': new Date(),
         'Last heard from (AEDT)': '',
-        'Last opened email (AEDT)': '2018-02-06 10:09:04',
-        'Last clicked on link in email (AEDT)': '2017-12-20 05:42:17',
+        'Last opened email (AEDT)': new Date(),
+        'Last clicked on link in email (AEDT)': new Date(),
         'Web sessions': '150',
         Country: 'Australia',
         Region: 'New South Wales',
@@ -126,7 +135,7 @@ export default {
         exception_count: '',
         onboarding_completed: 'true',
         autologin_url: '',
-        'last_greet_uploaded_at (AEDT)': '2018-01-30 23:51:00 UTC',
+        'last_greet_uploaded_at (AEDT)': new Date(),
         added_integration: 'true',
         app_installed: 'true',
         autologin_app_url: 'https://bonjoro.app.link/VHd5UOtohB',
@@ -154,7 +163,7 @@ export default {
         rate_percentage_opens: '80',
         rate_percentage_reactions: '16',
         rate_percentage_views: '48',
-        'signup_date_at (AEDT)': '2016-05-11 00:00:00 UTC',
+        'signup_date_at (AEDT)': new Date(),
         stats_clicks: '55',
         stats_opens: '420',
         stats_reactions: '81',
@@ -181,8 +190,8 @@ export default {
         'Is Mobile Unidentified': '',
         'Company name': 'Bonjoro',
         'Company ID': 'c349d35c-572d-4bbe-8981-2de74d186266',
-        'Company last seen (AEDT)': '2018-02-06 01:59:06',
-        'Company created at (AEDT)': '2016-05-10 04:49:25',
+        'Company last seen (AEDT)': new Date(),
+        'Company created at (AEDT)': new Date(),
         People: '18',
         'Company web sessions': '1',
         Plan: 'usd-pro-monthly-45',
@@ -199,7 +208,7 @@ export default {
         plan: 'usd-default-monthly',
         public_billing_url: 'https://www.bonjoro.com/payments/c349d35c-572d-4bbe-8981-2de74d186266',
         stripe_id: 'cus_9HVVc2NEYaSgl9',
-        'createdAt (AEDT)': '2016-05-09 18:49:25 UTC',
+        'createdAt (AEDT)': new Date(),
         monthlySpend: '0',
         creation_source: 'api',
         credit_card_added: 'false',
