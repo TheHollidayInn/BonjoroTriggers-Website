@@ -232,7 +232,7 @@ export default {
       const options = this.fieldOptions.map(item => {
         const text = keysToLabels[item] ? keysToLabels[item] : item
         return {
-          value: camelCase(item),
+          value: item.replace(/\s+/g, '-').toLowerCase(),
           text
         }
       })
