@@ -39,6 +39,9 @@
                   option on
                   option before
               .col-12.col-md-4
+                select.form-control(v-model='condition.expectedValue', v-if='typeof exampleObject[condition.item.text] === "boolean"')
+                  option(value='"true"') True
+                  option(value='"false"') False
                 input.form-control(v-model='condition.expectedValue', type='text', v-if='typeof exampleObject[condition.item.text] === "string"')
                 input.form-control(v-model='condition.expectedValue', type='date', v-if='exampleObject[condition.item.text] instanceof Date && ["after", "on", "before"].indexOf(condition.compare) !== -1')
                 input.form-control(v-model='condition.expectedValue', type='number', v-if='exampleObject[condition.item.text] instanceof Date && ["after", "on", "before"].indexOf(condition.compare) === -1')
@@ -108,9 +111,9 @@ export default {
         'Job Title': '',
         Segment: '"Active,App installed,M test,Android/Not Paying"',
         Tag: '"bonjoro_watched,bonjoro_sent,bonjoro_reacted,bonjoro_shared,[Issue] Upload Slow,M test"',
-        'Unsubscribed from Emails': 'false',
-        'Marked email as spam': 'false',
-        'Has hard bounced': 'false',
+        'Unsubscribed from Emails': false,
+        'Marked email as spam': false,
+        'Has hard bounced': false,
         job_title: 'Tech Wizard',
         api_key: '',
         greetCount: '231',
@@ -133,28 +136,28 @@ export default {
         greets_completed: '492.0',
         lifetime_revenue: '',
         exception_count: '',
-        onboarding_completed: 'true',
+        onboarding_completed: true,
         autologin_url: '',
         'last_greet_uploaded_at (AEDT)': new Date(),
-        added_integration: 'true',
-        app_installed: 'true',
+        added_integration: true,
+        app_installed: true,
         autologin_app_url: 'https://bonjoro.app.link/VHd5UOtohB',
         autologin_site_url: 'https://www.bonjoro.com/autologin/FKMPXdyW-cp/78964335-4c42-4f6c-aa8b-41a77665042c',
         createdAt: '1462982948',
-        created_profile: 'true',
+        created_profile: true,
         rate_opens: '78',
         rate_views: '47',
         referrals_count: '0',
         stat_opens: '429',
         stat_reactions: '81',
         stat_views: '463',
-        added_design: 'true',
-        custom_mailer: 'true',
+        added_design: true,
+        custom_mailer: true,
         article_id: '',
         Unwatched_Bonjoro: '',
         firstName: 'Mike',
         lastName: 'Roberts',
-        automations_added: 'true',
+        automations_added: true,
         automations_disabled: '1',
         automations_enabled: '3',
         date_card_added: '',
@@ -204,15 +207,15 @@ export default {
         account_credit: '3500',
         monthly_spend: '',
         owner: '174d5e13-333d-4b9e-b268-9300acfd9517',
-        paid_account: 'false',
+        paid_account: false,
         plan: 'usd-default-monthly',
         public_billing_url: 'https://www.bonjoro.com/payments/c349d35c-572d-4bbe-8981-2de74d186266',
         stripe_id: 'cus_9HVVc2NEYaSgl9',
         'createdAt (AEDT)': new Date(),
         monthlySpend: '0',
         creation_source: 'api',
-        credit_card_added: 'false',
-        on_trial: 'true'
+        credit_card_added: false,
+        on_trial: true
       }
     }
   },
