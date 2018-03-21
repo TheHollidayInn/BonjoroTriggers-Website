@@ -8,14 +8,17 @@
             button.btn.btn-primary(@click='add()') Add a Trigger
           ul.list-group
             li.list-group-item(v-for='(trigger, index) in triggers', :key='trigger._id')
-              span {{trigger.name}} {{index}}
+              span {{trigger.name}}
+              ul
+                li(v-for='condition in trigger.conditions') {{condition.item.text}} {{condition.compare}} {{condition.expectedValue}}
               button.btn.btn-danger(@click="removeTrigger(trigger)") Remove
               button.btn.btn-primary(@click="selectTrigger(trigger)") Edit
     transition(name="slide-fade")
       .row(v-show='selectedTrigger')
         .col-12.col-md-6.offset-md-3
           h2 Current Trigger
-          div(v-for='(condition, index) in conditions')
+          button.btn.btn-primary.finish-button(@click="finish('')") Finish Editing
+          .condition(v-for='(condition, index) in conditions')
             h5(v-if='index === 0') When
             h5(v-if='index > 0') and
             .row
@@ -47,14 +50,13 @@
                 input.form-control(v-model='condition.expectedValue', type='number', v-if='exampleObject[condition.item.text] instanceof Date && ["after", "on", "before"].indexOf(condition.compare) === -1')
                 span(v-if='exampleObject[condition.item.text] instanceof Date && ["after", "on", "before"].indexOf(condition.compare) === -1') days ago
                 input.form-control(v-model='condition.expectedValue', type='number', v-if='typeof exampleObject[condition.item.text] === "number"')
+            button.btn.btn-danger(@click="remove(condition)") Remove
           .row.actions
             .col-12.text-center
-              button.btn.btn-danger(@click="remove()") Remove
               button.btn.btn-primary(@click="addAnother()") Add a Condition
-          .row.action
+          //.row.action
             .col-12.text-center
               h2 Then Email Me
-              button.btn.btn-primary(@click="finish('')") Finish Editing
 </template>
 
 <script>
@@ -278,16 +280,16 @@ export default {
     },
     addAnother () {
       const condition = {
-        id: uuidv1(),
+        _id: uuidv1(),
         item: {value: '', text: ''},
         compare: '=',
         expectedValue: ''
       }
       this.conditions.push(condition)
     },
-    remove () {
-      const conditionRemove = this.conditions[this.conditions.length - 1]
-      this.conditions = this.conditions.filter(condition => condition.id !== conditionRemove.id)
+    remove (con) {
+      const conditionId = con._id
+      this.conditions = this.conditions.filter(condition => condition._id !== conditionId)
     },
     removeTrigger (triggerRemove) {
       if (!confirm('Are you sure you want to remove this trigger?')) return
@@ -345,10 +347,15 @@ export default {
 
   .actions {
     margin-top: 1em;
+    margin-bottom: 2em;
   }
 
   .actions .btn-danger {
     margin-right: 1em;
+  }
+
+  .condition {
+    margin-bottom: 2em;
   }
 
   .btn-primary {
@@ -360,6 +367,10 @@ export default {
     background: #fc5a00;
     border-color: #c94800;
     box-shadow: inset 0 -3px rgba(0,0,0,.3);
+  }
+
+  .finish-button {
+    margin-bottom: 2em;
   }
 
   /* Enter and leave animations can use different */
