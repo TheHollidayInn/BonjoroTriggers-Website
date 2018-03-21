@@ -12,6 +12,7 @@
               ul
                 li(v-for='condition in trigger.conditions') {{condition.item.text}} {{condition.compare}} {{condition.expectedValue}}
               button.btn.btn-danger(@click="removeTrigger(trigger)") Remove
+              button.btn.btn-secondary(@click="cloneTrigger(trigger)") Clone
               button.btn.btn-primary(@click="selectTrigger(trigger)") Edit
     transition(name="slide-fade")
       .row(v-show='selectedTrigger')
@@ -250,14 +251,14 @@ export default {
       const name = `Trigger ${triggerID}`
       const conditions = [
         {
-          id: uuidv1(),
+          _id: uuidv1(),
           item: {value: '', text: ''},
           compare: '=',
           expectedValue: ''
         }
       ]
       const newTrigger = {
-        id: triggerID,
+        _id: triggerID,
         name,
         conditions
       }
@@ -277,6 +278,24 @@ export default {
     selectTrigger (trigger) {
       this.selectedTrigger = trigger
       this.conditions = trigger.conditions
+    },
+    async cloneTrigger (trigger) {
+      const triggerID = uuidv1()
+      const name = `Trigger ${triggerID}`
+
+      const cloned = Object.assign({}, trigger)
+      cloned.conditions.forEach(con => delete con._id)
+
+      const response = await axios.post('https://bonjoro-triggers-api.herokuapp.com/api/v1/triggers', {
+        name,
+        conditions: cloned.conditions
+      })
+
+      const newTrigger = response.data.trigger
+
+      this.selectedTrigger = newTrigger
+      this.conditions = newTrigger.conditions
+      this.triggers.push(newTrigger)
     },
     addAnother () {
       const condition = {
@@ -366,6 +385,10 @@ export default {
   .btn-danger {
     background: #fc5a00;
     border-color: #c94800;
+    box-shadow: inset 0 -3px rgba(0,0,0,.3);
+  }
+
+  .btn-secondary {
     box-shadow: inset 0 -3px rgba(0,0,0,.3);
   }
 
