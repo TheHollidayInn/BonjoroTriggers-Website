@@ -64,7 +64,6 @@
 import axios from 'axios'
 import { ModelSelect } from 'vue-search-select'
 const uuidv1 = require('uuid/v1')
-const camelCase = require('camelcase')
 
 const keysToLabels = {
   firstName: 'First name',
