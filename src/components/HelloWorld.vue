@@ -7,7 +7,7 @@
             | Triggers
             button.btn.btn-primary(@click='add()') Add a Trigger
           ul.list-group
-            li.list-group-item(v-for='(trigger, index) in triggers', :key='trigger._id')
+            li.list-group-item.trigger(v-for='(trigger, index) in triggers', :key='trigger._id')
               span {{trigger.name}}
               ul
                 li(v-for='condition in trigger.conditions') {{condition.item.text}} {{condition.compare}} {{condition.expectedValue}}
@@ -348,6 +348,10 @@ export default {
   }
   a {
     color: #42b983;
+  }
+
+  .trigger {
+    margin-bottom: 2em;
   }
 
   .trigger-editor {
