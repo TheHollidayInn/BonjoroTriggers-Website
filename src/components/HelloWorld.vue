@@ -298,7 +298,7 @@ export default {
     },
     addAnother () {
       const condition = {
-        _id: uuidv1(),
+        id: uuidv1(),
         item: {value: '', text: ''},
         compare: '=',
         expectedValue: ''
@@ -306,8 +306,11 @@ export default {
       this.conditions.push(condition)
     },
     remove (con) {
-      const conditionId = con._id
-      this.conditions = this.conditions.filter(condition => condition._id !== conditionId)
+      const conditionId = con._id || con.id;
+      this.conditions = this.conditions.filter(condition => {
+        const conId = condition._id || condition.id;
+        return conId !== conditionId;
+      });
     },
     removeTrigger (triggerRemove) {
       if (!confirm('Are you sure you want to remove this trigger?')) return
